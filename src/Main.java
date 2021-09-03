@@ -18,6 +18,7 @@ public class Main {
     public static void main(String[] args) {
         runL1C1();
         runL2C1();
+        runL2C2();
     }
 
     private static void runL1C1() {
@@ -38,6 +39,15 @@ public class Main {
         );
     }
 
+    private static void runL2C2() {
+        List<Map<String, Object>> tests  = getL2C2TestCases();
+        runTests(
+                L2C2.class,
+                tests,
+                (expected, actual) -> (int) expected == (int) actual
+        );
+    }
+
 
     private static void runTests(Class<?> clazz, List<Map<String, Object>> testCases, BiPredicate<Object, Object> resultCheck) {
         try {
@@ -49,7 +59,8 @@ public class Main {
                 boolean passed = resultCheck.test(testCase.get("sol"), result);
 
                 if (!passed) {
-                    System.out.println(String.format("TEST FAILED! %s", clazz.getSimpleName()));
+                    System.out.println(String.format("TEST FAILED! %s expected: %s, actual: %s", clazz.getSimpleName(), testCase.get("sol").toString(), result.toString()));
+                    throw new RuntimeException("Tests failed");
                 }
             }
             System.out.println("All tests passed for ".concat(clazz.getSimpleName()));
@@ -107,6 +118,25 @@ public class Main {
 
 
         return Arrays.asList(t1, t2, t3, t4);
+    }
+
+    private static List<Map<String, Object>> getL2C2TestCases() {
+
+
+        Map<String, Object> t1 = new HashMap<>();
+        t1.put("args", Arrays.asList("<<>><"));
+        t1.put("sol", 4);
+
+        Map<String, Object> t2 = new HashMap<>();
+        t2.put("args", Arrays.asList(">----<"));
+        t2.put("sol", 2);
+
+        Map<String, Object> t3 = new HashMap<>();
+        t3.put("args", Arrays.asList("--->-><-><-->-"));
+        t3.put("sol", 10);
+
+
+        return Arrays.asList(t1, t2, t3);
     }
 
 }
