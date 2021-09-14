@@ -1,9 +1,6 @@
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.stream.IntStream;
 
@@ -19,6 +16,7 @@ public class Main {
         runL1C1();
         runL2C1();
         runL2C2();
+        runL3C1();
     }
 
     private static void runL1C1() {
@@ -48,22 +46,34 @@ public class Main {
         );
     }
 
+    private static void runL3C1() {
+        List<Map<String, Object>> tests  = getL3C1TestCases();
+        runTests(
+                L3C1.class,
+                tests,
+                (expected, actual) -> (int) expected == (int) actual
+        );
+    }
+
 
     private static void runTests(Class<?> clazz, List<Map<String, Object>> testCases, BiPredicate<Object, Object> resultCheck) {
         try {
             Method method = Arrays.stream(clazz.getMethods()).filter(m -> m.getName().equals("solution")).findFirst().get();
 
+            int passedCount = 0;
             for (Map<String, Object> testCase : testCases) {
                 List<Object> args = (List<Object>) testCase.get("args");
                 Object result = method.invoke(null, args.toArray());
                 boolean passed = resultCheck.test(testCase.get("sol"), result);
 
                 if (!passed) {
+                    System.out.println(String.format("FAILED! %d tests were passed before for %s", passedCount, (clazz.getSimpleName())));
                     System.out.println(String.format("TEST FAILED! %s expected: %s, actual: %s", clazz.getSimpleName(), testCase.get("sol").toString(), result.toString()));
                     throw new RuntimeException("Tests failed");
                 }
+                passedCount++;
             }
-            System.out.println("All tests passed for ".concat(clazz.getSimpleName()));
+            System.out.println(String.format("All %d tests passed for %s", testCases.size(), (clazz.getSimpleName())));
 
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
@@ -137,6 +147,134 @@ public class Main {
 
 
         return Arrays.asList(t1, t2, t3);
+    }
+
+    private static List<Map<String, Object>> getL3C1TestCases() {
+
+
+        Map<String, Object> t1 = new HashMap<>();
+        t1.put("args", Arrays.asList(new int[]{1, 1, 1}));
+        t1.put("sol", 1);
+
+        Map<String, Object> t2 = new HashMap<>();
+        t2.put("args", Arrays.asList(new int[]{1, 2, 3, 4, 5, 6}));
+        t2.put("sol", 3);
+
+        Map<String, Object> t3 = new HashMap<>();
+        t3.put("args", Arrays.asList(new int[]{4, 2, 5, 1, 6}));
+        t3.put("sol", 0);
+
+        Map<String, Object> t4 = new HashMap<>();
+        t4.put("args", Arrays.asList(new int[]{1, 2, 5, 1, 6, 10}));
+        t4.put("sol", 5);
+
+
+        Map<String, Object> t5 = new HashMap<>();
+        t5.put("args", Arrays.asList(new int[]{3, 18, 36, 54, 72, 144, 216, 108, 288}));
+        t5.put("sol", 34);
+
+        Map<String, Object> t6 = new HashMap<>();
+        t6.put("args", Arrays.asList(new int[]{8, 16}));
+        t6.put("sol", 0);
+
+        Map<String, Object> t7 = new HashMap<>();
+        t7.put("args", Arrays.asList(new int[]{8, 16, 32}));
+        t7.put("sol", 1);
+
+        Map<String, Object> t8 = new HashMap<>();
+        t8.put("args", Arrays.asList(new int[]{1, 3, 6, 12, 4, 8, 4, 16, 8}));
+        t8.put("sol", 16);
+
+        Map<String, Object> t9 = new HashMap<>();
+        t9.put("args", Arrays.asList(new int[]{24, 12, 8, 6, 3, 2, 1}));
+        t9.put("sol", 0);
+
+        Map<String, Object> t10 = new HashMap<>();
+        t10.put("args", Arrays.asList(new int[]{24, 12, 8, 6, 3, 2, 1, 1}));
+        t10.put("sol", 0);
+
+        Map<String, Object> t11 = new HashMap<>();
+        t11.put("args", Arrays.asList(new int[]{24, 12, 8, 6, 3, 2, 1, 1, 1}));
+        t11.put("sol", 1);
+
+
+
+        int elemCount = 100;
+
+        Map<String, Object> randoms = new HashMap<>();
+        int[] randNums = new int[elemCount];
+        int[] allSameNums = new int[elemCount];
+        int[] twoPowers = new int[10];
+        int[] threePowers = new int[10];
+
+        int[] primeFactorMultiplications = new int[elemCount];
+
+        for (int i = 0; i < 10; i++) {
+            twoPowers[i] = (int) Math.pow(2, i);
+            threePowers[i] = (int) Math.pow(3, i);
+        }
+
+        for (int i = 0; i < elemCount; i++) {
+            int n = new Random().nextInt() % 1000;
+            randNums[i] = n;
+            allSameNums[i] = 999999;
+            int twoPower = new Random().nextInt() % 5;
+            int threePower = new Random().nextInt() % 5;
+            int fivePower = new Random().nextInt() % 1;
+
+            int mul = (int) (Math.pow(2,twoPower) * Math.pow(3, threePower) * Math.pow(5, fivePower));
+            primeFactorMultiplications[i] = mul > 0 ? mul : 1;
+        }
+        randoms.put("args", Arrays.asList(randNums));
+        randoms.put("sol", 1);
+
+
+        Map<String, Object> t12 = new HashMap<>();
+        t12.put("args", Arrays.asList(allSameNums));
+        t12.put("sol", 161700);
+
+        Map<String, Object> t13 = new HashMap<>();
+        t13.put("args", Arrays.asList((twoPowers)));
+        t13.put("sol", 120);
+
+        Map<String, Object> t14 = new HashMap<>();
+        t14.put("args", Arrays.asList(primeFactorMultiplications));
+        t14.put("sol", 1);
+
+        Map<String, Object> t15 = new HashMap<>();
+        t15.put("args", Arrays.asList(new int[]{4, 8, 4, 8, 16}));
+        t15.put("sol", 7);
+
+        Map<String, Object> t16 = new HashMap<>();
+        t16.put("args", Arrays.asList(new int[]{1, 5, 8, 2, 1, 1, 144, 1, 54, 1}));
+        t16.put("sol", 22);
+
+        Map<String, Object> t17 = new HashMap<>();
+        t17.put("args", Arrays.asList(new int[]{1, 1, 2, 1, 40, 9, 1, 27, 27, 1}));
+        t17.put("sol", 42);
+
+        Map<String, Object> t18 = new HashMap<>();
+        t18.put("args", Arrays.asList(new int[]{648, 4, 18, 3, 1, 9, 81, 81, 24, 3}));
+        t18.put("sol", 7);
+
+        Map<String, Object> t19 = new HashMap<>();
+        t19.put("args", Arrays.asList(new int[]{1, 13, 1, 1, 3, 324, 1, 5, 36, 10, 108, 1, 432, 1, 1, 1, 20, 1, 5, 36}));
+        t19.put("sol", 277);
+
+        Map<String, Object> t20 = new HashMap<>();
+        t20.put("args", Arrays.asList(new int[]{4, 21, 7, 14, 8, 56, 56, 42}));
+        t20.put("sol", 9);
+
+        Map<String, Object> t21 = new HashMap<>();
+        t21.put("args", Arrays.asList(new int[]{2, 2, 2, 2, 4, 4, 5, 6, 8, 8, 8}));
+        t21.put("sol", 90);
+
+        Map<String, Object> t23 = new HashMap<>();
+        t23.put("args", Arrays.asList(new int[]{4, 21, 7, 14, 56, 8, 56, 4, 42}));
+        t23.put("sol", 7);
+
+
+        return Arrays.asList(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t15, t16, t17, t18, t19, t20, t21, t23);
     }
 
 }
