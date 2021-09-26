@@ -71,7 +71,7 @@ public class L4C1 {
 
         // BFS is done within theta range. The purpose is to limit the size of the line cache, which can be quite high on some inputs.
         // As a result some nodes will be processed multiple times, on each BFS iteration. Since those duplications are limited
-        // to the edges of sector,their effect is fairly insignificant with a moderate step size.
+        // to the edges of sectors,their effect is fairly insignificant with a moderate step size.
         // Even when theta step was set to maximum(360 degrees), the solution was still accepted.
         final int THETA_STEP = 90;
 
