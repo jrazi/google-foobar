@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 
 /**
  *
- * Tests the solutions with simple tests cases. Didn't want to use any extra testing library.
+ * Tests the solutions with simple tests cases.
  *
  */
 public class Main {
@@ -20,6 +20,7 @@ public class Main {
         runL3C1();
         runL3C2();
         runL3C3();
+        runL4C1();
     }
 
     private static void runL1C1() {
@@ -74,6 +75,15 @@ public class Main {
                 L3C3.class,
                 tests,
                 (expected, actual) -> Arrays.toString((int[]) expected).equals(Arrays.toString((int[]) actual))
+        );
+    }
+
+    private static void runL4C1() {
+        List<Map<String, Object>> tests  = getL4C1TestCases();
+        runTests(
+                L4C1.class,
+                tests,
+                (expected, actual) -> (int) expected == (int) actual
         );
     }
 
@@ -381,30 +391,39 @@ public class Main {
     			testCase(new int[][] {{0}}, new int[] {1, 1}),
       			testCase(new int[][] {{0, 0}, {0, 0}}, new int[] {1, 1}),
       			testCase(new int[][] {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, new int[] {1, 1})
-
-//    			testCase(
-//    					new int[][] {
-//    						{5, 0, 8, 0, 20, 48, 0, 0, 0, 22},
-//    						{0, 0, 93, 44, 0, 663, 0, 748, 0, 2},
-//    						{0, 2, 0, 4, 16, 16, 4, 0, 3, 0},
-//    						{0, 4, 16, 0, 64, 0, 0, 0, 15, 0},
-//    						{11, 0, 0, 0, 83, 0, 0, 27, 0, 0},
-//    						{0, 211, 192, 0, 543, 7, 0, 0, 17, 0},
-//    						{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-//    						{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-//    						{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-//    						{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-//						},
-//    					new int[] {}
-////    					new long[] {98153218416, 2689204197027L, 147587539484, 1125436585481L, 4060381540408L}
-//						// 507547692551, 4060381540408, 1015095385102, 4060381540408
-//						// lcm 4060381540408
-//						// computed solution: 0.024173397854167483, 0.6623033255039329, 0.036348194871649905, 0.27717508177024974
-//				)
-
 			);
     }
-    
+
+    private static List<Map<String, Object>> getL4C1TestCases() {
+        return Arrays.asList(
+                testCase(Arrays.asList(new int[]{3, 2}, new int[]{1, 1}, new int[]{2, 1}, 4), 7),
+                testCase(Arrays.asList(new int[]{3, 2}, new int[]{1, 1}, new int[]{2, 1}, 1), 1),
+                testCase(Arrays.asList(new int[]{3, 2}, new int[]{1, 1}, new int[]{2, 2}, 1), 0),
+                testCase(Arrays.asList(new int[]{3, 2}, new int[]{1, 1}, new int[]{1, 2}, 1), 1),
+                testCase(Arrays.asList(new int[]{4, 4}, new int[]{2, 2}, new int[]{3, 3}, 2), 1),
+                testCase(Arrays.asList(new int[]{4, 4}, new int[]{3, 3}, new int[]{2, 2}, 2), 1),
+                testCase(Arrays.asList(new int[]{100, 100}, new int[]{3, 3}, new int[]{2, 2}, 15), 3),
+                testCase(Arrays.asList(new int[]{100, 100}, new int[]{2, 2}, new int[]{3, 3}, 15), 3),
+                testCase(Arrays.asList(new int[]{100, 100}, new int[]{3, 4}, new int[]{2, 2}, 20), 4),
+                testCase(Arrays.asList(new int[]{1000, 1000}, new int[]{1, 1}, new int[]{1, 2}, 1), 1),
+                testCase(Arrays.asList(new int[]{1200, 1200}, new int[]{3, 3}, new int[]{2, 2}, 2), 1),
+                testCase(Arrays.asList(new int[]{300,275}, new int[]{150, 150}, new int[]{185,100}, 500), 9),
+                testCase(Arrays.asList(new int[]{42, 59}, new int[]{34, 44}, new int[]{6, 34}, 5000), 30904),
+                testCase(Arrays.asList(new int[]{10, 2}, new int[]{1, 1}, new int[]{9, 1}, 7), 0),
+                testCase(Arrays.asList(new int[]{869, 128}, new int[]{524, 86}, new int[]{288, 28}, 5671), 911),
+                testCase(Arrays.asList(new int[]{113, 174}, new int[]{1, 1}, new int[]{3, 2}, 5000), 4026),
+                testCase(Arrays.asList(new int[]{300,300}, new int[]{100, 100}, new int[]{140,140}, 5000), 775)
+        );
+    }
+
+    private static Map<String, Object> testCase(List<Object> args, Object expectedOutput) {
+        Map<String, Object> testCase = new HashMap<>();
+        testCase.put("args", args);
+        testCase.put("sol", expectedOutput);
+
+        return testCase;
+    }
+
     private static Map<String, Object> testCase(Object singleArg, Object expectedOutput) {
         Map<String, Object> testCase = new HashMap<>();
         testCase.put("args", Arrays.asList(singleArg));
