@@ -21,6 +21,7 @@ public class Main {
         runL3C2();
         runL3C3();
         runL4C1();
+        runL4C2();
     }
 
     private static void runL1C1() {
@@ -82,6 +83,15 @@ public class Main {
         List<Map<String, Object>> tests  = getL4C1TestCases();
         runTests(
                 L4C1.class,
+                tests,
+                (expected, actual) -> (int) expected == (int) actual
+        );
+    }
+
+    private static void runL4C2() {
+        List<Map<String, Object>> tests  = getL4C2TestCases();
+        runTests(
+                L4C2.class,
                 tests,
                 (expected, actual) -> (int) expected == (int) actual
         );
@@ -413,6 +423,27 @@ public class Main {
                 testCase(Arrays.asList(new int[]{869, 128}, new int[]{524, 86}, new int[]{288, 28}, 5671), 911),
                 testCase(Arrays.asList(new int[]{113, 174}, new int[]{1, 1}, new int[]{3, 2}, 5000), 4026),
                 testCase(Arrays.asList(new int[]{300,300}, new int[]{100, 100}, new int[]{140,140}, 5000), 775)
+        );
+    }
+
+
+    private static List<Map<String, Object>> getL4C2TestCases() {
+        return Arrays.asList(
+            testCase(Arrays.asList(new int[]{0, 1}, new int[]{4, 5}, new int[][]{{0, 0, 4, 6, 0, 0}, {0, 0, 5, 2, 0, 0}, {0, 0, 0, 0, 4, 4}, {0, 0, 0, 0, 6, 6}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}}), 16),
+            testCase(Arrays.asList(new int[]{0}, new int[]{3}, new int[][]{{0, 7, 0, 0}, {0, 0, 6, 0}, {0, 0, 0, 8}, {9, 0, 0, 0}}), 6),
+            testCase(Arrays.asList(new int[]{0}, new int[]{3}, new int[][]{{0, 2, 2, 0}, {0, 0, 1, 2}, {0, 0, 0, 2}, {0, 0, 0, 0}}), 4),
+            testCase(Arrays.asList(
+                    new int[]{0}, new int[]{5},
+                    new int[][]{
+                            {0, 10, 10, 0, 0, 0},
+                            {0, 0, 2, 4, 8, 0},
+                            {0, 0, 0, 0, 9, 0},
+                            {0, 0, 0, 0, 0, 10},
+                            {0, 0, 0, 6, 0, 10},
+                            {0, 0, 0, 0, 0, 0}
+                    }),
+                    19
+            )
         );
     }
 
