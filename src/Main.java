@@ -7,20 +7,21 @@ import java.util.stream.IntStream;
 
 /**
  *
- * Tests the solutions with simple tests cases.
+ * Tests the solutions.
  *
  */
 public class Main {
 
     public static void main(String[] args) {
-        runL1C1();
-        runL2C1();
-        runL2C2();
-        runL3C1();
-        runL3C2();
-        runL3C3();
-        runL4C1();
-        runL4C2();
+//        runL1C1();
+//        runL2C1();
+//        runL2C2();
+//        runL3C1();
+//        runL3C2();
+//        runL3C3();
+//        runL4C1();
+//        runL4C2();
+        runL5C1();
     }
 
     private static void runL1C1() {
@@ -91,6 +92,15 @@ public class Main {
         List<Map<String, Object>> tests  = getL4C2TestCases();
         runTests(
                 L4C2.class,
+                tests,
+                (expected, actual) -> (int) expected == (int) actual
+        );
+    }
+
+    private static void runL5C1() {
+        List<Map<String, Object>> tests  = getL5C1TestCases();
+        runTests(
+                L5C1.class,
                 tests,
                 (expected, actual) -> (int) expected == (int) actual
         );
@@ -251,6 +261,23 @@ public class Main {
                     }),
                     19
             )
+        );
+    }
+
+    private static List<Map<String, Object>> getL5C1TestCases() {
+        return Arrays.asList(
+                testCase(
+                        new boolean[][]{{true, false, true}, {false, true, false}, {true, false, true}},
+                        4
+                ),
+                testCase(
+                        new boolean[][]{{true, false, true, false, false, true, true, true}, {true, false, true, false, false, false, true, false}, {true, true, true, false, false, false, true, false}, {true, false, true, false, false, false, true, false}, {true, false, true, false, false, true, true, true}},
+                        254
+                ),
+                testCase(
+                        new boolean[][]{{true, true, false, true, false, true, false, true, true, false}, {true, true, false, false, false, false, true, true, true, false}, {true, true, false, false, false, false, false, false, false, true}, {false, true, false, false, false, false, true, true, false, false}},
+                        11567
+                )
         );
     }
 
