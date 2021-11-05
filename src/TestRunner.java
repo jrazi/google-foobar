@@ -5,22 +5,17 @@ import java.util.function.BiPredicate;
 import java.util.stream.IntStream;
 
 
-/**
- *
- * Tests the solutions.
- *
- */
-public class Main {
+public class TestRunner {
 
     public static void main(String[] args) {
-//        runL1C1();
-//        runL2C1();
-//        runL2C2();
-//        runL3C1();
-//        runL3C2();
-//        runL3C3();
-//        runL4C1();
-//        runL4C2();
+        runL1C1();
+        runL2C1();
+        runL2C2();
+        runL3C1();
+        runL3C2();
+        runL3C3();
+        runL4C1();
+        runL4C2();
         runL5C1();
     }
 
